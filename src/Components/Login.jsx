@@ -47,13 +47,13 @@ const Login = () => {
     if (isSignUp) {
       sendRequest("signup")
         .then(() => dispath(authActions.login()))
-        .then(() => navigate("/todaybookings"))
+        .then(() => navigate("/signup"))
         .then((data) => console.log(data));
     } else {
       sendRequest()
         .then((data) => localStorage.setItem("token", data.token))
         .then(() => dispath(authActions.login()))
-        .then(() => navigate("/todaybookings"));
+        .then(() => navigate("/book/add"));
       //.then(data=>console.log(data))
     }
   };

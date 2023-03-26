@@ -30,23 +30,32 @@ const BookNow = () => {
     return response;
   };
   return (
-    <div>
-      <DateTimePicker
-        onChange={(event) => {
-          setStartTime(event.target.value);
-        }}
-        value={startTime}
-      />
-      <TimePicker
-        onChange={(event) => {
-          setEndTime(event.target.value);
-        }}
-        value={endTime}
-      />
-      <Button style={{ backgroundColor: "blue" }} onClick={() => sendRequest()}>
-        Create Booking
-      </Button>
-    </div>
+    <>
+      {token ? (
+        <>
+          <DateTimePicker
+            onChange={(date) => {
+              setStartTime(date);
+            }}
+            value={startTime}
+          />
+          <TimePicker
+            onChange={(selectedTime) => {
+              setEndTime(selectedTime);
+            }}
+            value={endTime}
+          />
+          <Button
+            style={{ backgroundColor: "blue" }}
+            onClick={() => sendRequest()}
+          >
+            Create Booking
+          </Button>
+        </>
+      ) : (
+        <h1>Please Login to book</h1>
+      )}
+    </>
   );
 };
 
