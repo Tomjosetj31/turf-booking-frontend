@@ -21,12 +21,16 @@ const MyBookings = () => {
     <div>
       {mybooks &&
         mybooks.map((mybooks, index) => (
-          <Todaybooks
-            bookingDate={mybooks.bookingDate}
-            start_time={mybooks.start_time}
-            end_time={mybooks.end_time}
-            name={mybooks.user.name}
-          />
+          <div>
+            <div style={{ flex: 1 }}>
+              <Todaybooks
+                bookingDate={mybooks.bookingDate}
+                start_time={mybooks.start_time}
+                end_time={mybooks.end_time}
+                name={mybooks.user.name}
+              />
+            </div>
+          </div>
         ))}
     </div>
   );
