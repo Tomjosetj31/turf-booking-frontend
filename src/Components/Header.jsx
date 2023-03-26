@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer"; //Used to bring soccer Icon
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 //import {NavLink} from 'react-router-dom'; //used to include navigation links
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { authActions } from "../store";
+
 const Header = () => {
-  const dispath = useDispatch();
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  let token = localStorage.getItem("token");
   const [value, setValue] = useState();
+  const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    if (token) {
+      setAuthenticated(true);
+    }
+  }, [authenticated]);
   return (
     //Displays soccer icon | T
     <AppBar
@@ -28,7 +32,7 @@ const Header = () => {
         <Typography>
           <FitnessCenterIcon />
         </Typography>
-        {isLoggedIn && (
+        {authenticated && (
           <Box dispaly="flex" marginLeft={"auto"} marginRight={"auto"}>
             <Tabs
               textColor="inherit"
@@ -47,7 +51,7 @@ const Header = () => {
         )}
 
         <Box display="flex" marginLeft={"auto"}>
-          {!isLoggedIn && (
+          {!authenticated && (
             <Button
               LinkComponent={Link}
               to="/login"
@@ -57,9 +61,12 @@ const Header = () => {
               Login
             </Button>
           )}
-          {isLoggedIn && (
+          {authenticated && (
             <Button
-              onClick={() => dispath(authActions.logout())}
+              onClick={() => {
+                setAuthenticated(false);
+                localStorage.removeItem("token");
+              }}
               LinkComponent={Link}
               to="/login"
               variant="contained"
