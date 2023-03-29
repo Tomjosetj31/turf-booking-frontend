@@ -73,7 +73,7 @@ const Login = () => {
           borderRadius={55}
           backgroundColor="#d4d4d4"
         >
-          <Typography variant="h3" c olor={"#1244d9"}>
+          <Typography variant="h3" color={"#1244d9"}>
             {isSignUp ? "SignUp" : "Login"}
           </Typography>
           {isSignUp && (

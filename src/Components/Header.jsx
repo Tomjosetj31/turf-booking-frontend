@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Tab, Tabs, Toolbar, Typography, IconButton, Drawer } from "@mui/material";
 import SportsSoccerIcon from "@mui/icons-material/SportsSoccer"; //Used to bring soccer Icon
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
-//import {NavLink} from 'react-router-dom'; //used to include navigation links
+import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
+import Profile from './RightNavLinks/profile'
 
 const Header = () => {
   let token = localStorage.getItem("token");
   const [value, setValue] = useState();
   const [authenticated, setAuthenticated] = useState(false);
+  const [drawer, setDrawer] = useState(false);
+  
+  const handleDrawerOpen = () => {
+    setDrawer(true);
+  };
+  const handleDrawerClose = () => {
+    setDrawer(false);
+  };
   useEffect(() => {
     if (token) {
       setAuthenticated(true);
@@ -22,8 +32,7 @@ const Header = () => {
       sx={{
         background:
           "radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(86,68,182,1) 50%, rgba(0,212,255,1) 100%);//cssgradient",
-      }}
-    >
+      }}>
       <Toolbar>
         <Typography>
           <SportsSoccerIcon />
@@ -37,19 +46,18 @@ const Header = () => {
             <Tabs
               textColor="inherit"
               value={value}
-              onChange={(e, val) => setValue(val)}
-            >
+              onChange={(e, val) => setValue(val)}>
+              {/*
               <Tab LinkComponent={Link} to="/mybookings" label="My Bookings" />
-              <Tab
-                LinkComponent={Link}
-                to="/todaybookings"
-                label="Today's Booking"
-              />
+              */}
+              <Tab LinkComponent={Link} to="/todaybookings" label="My Bookings" />
               <Tab LinkComponent={Link} to="book/add" label="Book Now" />
+              <IconButton onClick={handleDrawerOpen}>
+                <AccountCircleSharpIcon/>
+              </IconButton>
             </Tabs>
           </Box>
         )}
-
         <Box display="flex" marginLeft={"auto"}>
           {!authenticated && (
             <Button
@@ -71,13 +79,22 @@ const Header = () => {
               to="/login"
               variant="contained"
               sx={{ margin: 1, borderRadius: 10 }}
-              color="warning"
-            >
+              color="warning">
               Log Out
             </Button>
           )}
         </Box>
       </Toolbar>
+      <Drawer anchor="right" open={drawer} onClose={handleDrawerClose} sx={{ width: 700 }}>
+        <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '55px',backgroundColor: '#020580' }}>
+          <SettingsIcon/>
+        </Typography>
+          <Profile />
+          {/* <Tab sx={{ backgroundColor: 'blue',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/myprofile" label=" My Profile " /> */}
+          <Tab sx={{ backgroundColor: '#0606d6',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/updateprofile" label=" Update Profile " />
+          <Tab sx={{ backgroundColor: 'blue',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/support" label=" Support " />
+          <Tab sx={{ backgroundColor: '#0606d6',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/aboutus" label=" About Us " />
+      </Drawer>
     </AppBar>
   );
 };
