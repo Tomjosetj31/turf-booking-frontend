@@ -9,13 +9,23 @@ import {
 import React from "react";
 
 const Todaybooks = ({ bookingDate, start_time, end_time, name, id }) => {
+  const date = new Date(bookingDate); // create a Date object from the datetime string
+  const formattedDate = `${date.getDate()}-${
+    date.getMonth() + 1
+  }-${date.getFullYear()}`;
+  const startTime = new Date(start_time); // create a Date object from the datetime string
+  const formattedStartTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}`; // format the time as hh:mm:ss
+
+  const endTime = new Date(end_time); // create a Date object from the datetime string
+  const formattedEndTime = `${endTime.getHours()}:${endTime.getMinutes()}:${endTime.getSeconds()}`; // format the time as hh:mm:ss
+
   return (
     //
     <>
       <Card
         sx={{
           width: "40%",
-          marginLeft:"200px",
+          marginLeft: "200px",
           mt: 3,
           padding: 2,
           bgcolor: "#2471a3 ",
@@ -35,18 +45,18 @@ const Todaybooks = ({ bookingDate, start_time, end_time, name, id }) => {
           title={name}
         />
         <CardContent>
-          <Typography variant="body2" color="text.secondary" fontWeight= "bold">
-            {bookingDate}
+          <Typography variant="body2" color="text.secondary" fontWeight="bold">
+            {formattedDate}
           </Typography>
         </CardContent>
         <CardContent>
-          <Typography variant="body2" color="text.secondary" fontWeight= "bold">
-            {start_time}
+          <Typography variant="body2" color="text.secondary" fontWeight="bold">
+            {formattedStartTime}
           </Typography>
         </CardContent>
         <CardContent>
-          <Typography variant="body2" color="text.secondary" fontWeight= "bold">
-            {end_time}
+          <Typography variant="body2" color="text.secondary" fontWeight="bold">
+            {formattedEndTime}
           </Typography>
         </CardContent>
       </Card>
