@@ -41,6 +41,14 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import backgroundImage from '../../images/cr7.png';
+
+const Styles = {
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  height: '100vh',
+}
 
 const Myprofile = () => {
   let token = localStorage.getItem("token");
@@ -62,12 +70,23 @@ const Myprofile = () => {
   }, []);
   return (
     <>
-      <div>
+      <div style={Styles}>
         <div>
-          <div>
-            <h1 style={{ color: "white" }}>MY Profile</h1>
-          </div>
-          <h1 onClick={sendRequest}>{profile?.name}</h1>
+          <h1 style={{ color: "white", textAlign: "center", paddingTop:"20px" }}>MY Profile</h1>
+        </div>
+        <div>
+          <h1>Name</h1>
+          <input type="text" value={profile?.name} />
+        </div>
+        <div>
+          <input type="text" value={profile?.age} />
+        </div>
+        <div>
+          <h1>Email</h1>
+          <input type="text" value={profile?.phone} />
+        </div>
+        <div>
+        <input type="text" value={profile?.email} />
         </div>
       </div>
     </>

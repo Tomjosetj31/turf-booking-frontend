@@ -13,7 +13,7 @@ const Header = () => {
   const [value, setValue] = useState();
   const [authenticated, setAuthenticated] = useState(false);
   const [drawer, setDrawer] = useState(false);
-  
+
   const handleDrawerOpen = () => {
     setDrawer(true);
   };
@@ -88,12 +88,12 @@ const Header = () => {
       <Drawer anchor="right" open={drawer} onClose={handleDrawerClose} sx={{ width: 700 }}>
         <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '55px',backgroundColor: '#020580' }}>
           <SettingsIcon/>
-        </Typography>
+        </Typography >
           <Profile />
-          {/* <Tab sx={{ backgroundColor: 'blue',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/myprofile" label=" My Profile " /> */}
+          {/* <Tab sx={{ backgroundColor: 'blue',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/myprofile" label=" My Profile " /> 
           <Tab sx={{ backgroundColor: '#0606d6',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/updateprofile" label=" Update Profile " />
           <Tab sx={{ backgroundColor: 'blue',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/support" label=" Support " />
-          <Tab sx={{ backgroundColor: '#0606d6',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/aboutus" label=" About Us " />
+          <Tab sx={{ backgroundColor: '#0606d6',fontWeight: "bold",color:"black", height: '60px', marginTop:'10px'}} LinkComponent={Link} to="/aboutus" label=" About Us " />*/}
       </Drawer>
     </AppBar>
   );
