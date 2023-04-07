@@ -1,6 +1,9 @@
 import { Tabs, Tab, Link } from "@mui/material";
-import React, { useState } from "react";
-import DatePicker from "react-datetime-picker";
+import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import backgroundImage from "../images/stadium.jpg";
 
@@ -21,55 +24,130 @@ const bstyles = {
 
 const BookNow = () => {
   let token = localStorage.getItem("token");
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-  const [selectedEndTime, setSelectedEndTime] = useState(null);
+  let now = new Date();
+  const [selectedDate, setSelectedDate] = useState(now);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [status, setStatus] = useState();
+  const [bookingsByDate, setBookingsByDate] = useState(null);
 
   const timeSlots = [
     {
-      label: "12:00 AM - 1:00 AM",
-      value: new Date(
-        Date.parse(`${selectedDate.toLocaleDateString()} 00:00:00`)
-      ),
+      label: "12 AM - 1 AM",
+      slot: 1,
     },
     {
-      label: "1:00 AM - 2:00 AM",
-      value: new Date(
-        Date.parse(`${selectedDate.toLocaleDateString()} 01:00:00`)
-      ),
+      label: "1 AM - 2 AM",
+      slot: 2,
     },
     {
-      label: "2:00 AM - 3:00 AM",
-      value: new Date(
-        Date.parse(`${selectedDate.toLocaleDateString()} 02:00:00`)
-      ),
+      label: "2 AM - 3 AM",
+      slot: 3,
     },
-    // Add more time slots as needed
+    {
+      label: "3 AM - 4 AM",
+      slot: 4,
+    },
+    {
+      label: "4 AM - 5 AM",
+      slot: 5,
+    },
+    {
+      label: "5 AM - 6 AM",
+      slot: 6,
+    },
+    {
+      label: "6 AM - 7 AM",
+      slot: 7,
+    },
+    {
+      label: "7 AM - 8 AM",
+      slot: 8,
+    },
+    {
+      label: "8 AM - 9 AM",
+      slot: 9,
+    },
+    {
+      label: "9 AM - 10 AM",
+      slot: 10,
+    },
+    {
+      label: "10 AM - 11 AM",
+      slot: 11,
+    },
+    {
+      label: "11 AM - 12 PM",
+      slot: 12,
+    },
+    {
+      label: "12 PM - 1 PM",
+      slot: 13,
+    },
+    {
+      label: "1 PM - 2 PM",
+      slot: 14,
+    },
+    {
+      label: "2 PM - 3 PM",
+      slot: 15,
+    },
+    {
+      label: "3 PM - 4 PM",
+      slot: 16,
+    },
+    {
+      label: "4 PM - 5 PM",
+      slot: 17,
+    },
+    {
+      label: "5 PM - 6 PM",
+      slot: 18,
+    },
+    {
+      label: "6 PM - 7 PM",
+      slot: 19,
+    },
+    {
+      label: "7 PM - 8 PM",
+      slot: 20,
+    },
+    {
+      label: "8 PM - 9 PM",
+      slot: 21,
+    },
+    {
+      label: "9 PM - 10 PM",
+      slot: 22,
+    },
+    {
+      label: "10 PM - 11 PM",
+      slot: 23,
+    },
+    {
+      label: "11 PM - 12 AM",
+      slot: 24,
+    },
   ];
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setSelectedTimeSlot(null);
   };
 
-  const handleTimeSlotClick = (value) => {
-    setSelectedTimeSlot(value);
-    setSelectedEndTime(new Date(value.getTime() + 60 * 60 * 1000));
+  const handleTimeSlotClick = (slot) => {
+    setSelectedSlot(slot);
   };
 
-  const isTimeSlotSelected = (value) => {
-    if (!selectedTimeSlot) {
+  const isTimeSlotSelected = () => {
+    if (!selectedSlot) {
       return false;
     }
 
-    return selectedTimeSlot.getTime() === value.getTime();
+    return true;
   };
 
   const data = {
     bookingDate: selectedDate,
-    start_time: selectedTimeSlot,
-    end_time: selectedEndTime,
+    slot: selectedSlot,
   };
 
   const options = {
@@ -80,21 +158,70 @@ const BookNow = () => {
   };
 
   const sendRequest = async () => {
-    const res = await axios
-      .post(`http://localhost:5000/add`, data, options)
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios
+        .post(`http://localhost:5000/add`, data, options)
+        .catch((err) => console.log(err));
 
-    const response = await res.data;
-    console.log(response);
-    return response;
+      const response = await res.data;
+      console.log(response);
+      setStatus("success");
+    } catch (error) {
+      console.log(error);
+      setStatus("error");
+    }
   };
+
+  const getAllBookingsByDate = async (date) => {
+    let bookingDate = date.toISOString().split("T")[0];
+    try {
+      const res = await axios
+        .get(`http://localhost:5000/user/bookings/${bookingDate}`, options)
+        .catch((err) => console.log(err));
+
+      const response = await res.data;
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const renderMessage = () => {
+    switch (status) {
+      case "success":
+        return (
+          <p
+            style={{
+              background:
+                "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+              color: "white",
+              fontWeight: "bold",
+              textAlign: "center",
+              marginTop: "50px",
+            }}
+          >
+            Bookings created successfully
+          </p>
+        );
+      case "error":
+        return <p>Unable to book ! Please try again</p>;
+      default:
+        return null;
+    }
+  };
+  useEffect(() => {
+    getAllBookingsByDate(selectedDate).then((data) => {
+      const slots = data?.bookings.map((obj) => obj.slot);
+      setBookingsByDate(slots);
+    });
+  }, [selectedDate, status]);
   return (
     <div style={styles}>
       {token ? (
         <>
           <div
             style={{
-              marginLeft: "100px",
+              marginLeft: "50px",
               display: "flex",
               flexDirection: "row",
               gap: "1rem",
@@ -108,30 +235,47 @@ const BookNow = () => {
                 marginTop: "110px",
               }}
             >
-              <DatePicker value={selectedDate} onChange={handleDateChange} />
+              <DatePicker selected={selectedDate} onChange={handleDateChange} />
             </div>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: "1rem",
-                marginTop: "110px",
-                marginLeft: "130px",
+                marginTop: "100px",
+                marginLeft: "100px",
               }}
             >
-              {timeSlots.map((timeSlot) => (
-                <button
-                  style={bstyles}
-                  key={timeSlot.value}
-                  disabled={isTimeSlotSelected(timeSlot.value)}
-                  onClick={() => handleTimeSlotClick(timeSlot.value)}
-                >
-                  {timeSlot.label}
-                </button>
-              ))}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: "15px",
+                }}
+              >
+                {timeSlots.map((timeSlot) =>
+                  bookingsByDate && !bookingsByDate.includes(timeSlot.slot) ? (
+                    <Button
+                      style={bstyles}
+                      key={timeSlot.slot}
+                      onClick={() => handleTimeSlotClick(timeSlot.slot)}
+                    >
+                      {timeSlot.label}
+                    </Button>
+                  ) : (
+                    <Button
+                      style={bstyles}
+                      key={timeSlot.slot}
+                      // onClick={() => handleTimeSlotClick(timeSlot.slot)}
+                    >
+                      Already Booked
+                    </Button>
+                  )
+                )}
+              </div>
             </div>
           </div>
-          <button
+          <Button
             style={{
               backgroundColor: "black",
               fontWeight: "bold",
@@ -142,11 +286,12 @@ const BookNow = () => {
               gap: "1rem",
               marginTop: "50px",
             }}
-            disabled={!selectedTimeSlot}
+            disabled={!selectedSlot}
             onClick={() => sendRequest()}
           >
             Create Booking
-          </button>
+          </Button>
+          {renderMessage()}
         </>
       ) : (
         <div>

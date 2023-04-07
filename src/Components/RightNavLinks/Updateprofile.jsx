@@ -1,17 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Button } from "@mui/material";
 import backgroundImage from '../../images/graphicfootball.jpg';
 
-const styles = {
+const Styles = {
   backgroundImage: `url(${backgroundImage})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: '100vh',
 };
 const Updateprofile = () => {
+  let token = localStorage.getItem("token");
+  const [profile, setProfile] = useState(); //usestate contains data which is received from request which will be stored in todaybooks with the help of settodaybooks
+
+  const sendRequest = async () => {
+    console.log("sendRequest");
+    const res = await axios
+      .get(`http://localhost:5000/user`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .catch((err) => console.log(err));
+    const data = await res.data;
+    return data;
+  };
+  useEffect(() => {
+    console.log("useEffect");
+    sendRequest().then((data) => setProfile(data.user));
+  }, []);
   return (
-    <div style={styles}>
-      This is update profile page
+    <>
+    <div style={Styles}>
+      <div>
+        <h1 style={{ color: "white", textAlign: "center", paddingTop:"20px" }}>MY Profile</h1>
+      </div>
+      <div>
+        <h1>Name</h1>
+        <input type="text" value={profile?.name} />
+      </div>
+      <div>
+      <h1>Age</h1>
+        <input type="text" value={profile?.age} />
+      </div>
+      <div>
+        <h1>Phone</h1>
+        <input type="text" value={profile?.phone} />
+      </div>
+      <div>
+        <h1>Email</h1>
+        <input type="text" value={profile?.email} />
+      </div>
+      <Button
+          style={{
+            paddingRight:"12px",
+            margin: 20,
+            backgroundColor: "red",
+            fontWeight: "bold",
+            color:"black",
+          }}
+            onClick={() => sendRequest()}
+        >
+          Delete
+        </Button>
     </div>
-  );
+  </>
+);
 };
 export default Updateprofile;

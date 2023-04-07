@@ -40,8 +40,7 @@ const MyBooking = () => {
                 <Todaybooks
                   key={todaybooks._id}
                   bookingDate={todaybooks.bookingDate}
-                  start_time={todaybooks.start_time}
-                  end_time={todaybooks.end_time}
+                  slot={todaybooks.slot}
                   name={todaybooks.user.name}
                   id={todaybooks._id}
                 />
