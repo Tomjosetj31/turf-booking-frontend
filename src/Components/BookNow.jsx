@@ -22,6 +22,15 @@ const bstyles = {
   flexWrap: "wrap",
 };
 
+const pstyle = {
+  background:
+    "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center",
+  marginTop: "30px",
+};
+
 const BookNow = () => {
   let token = localStorage.getItem("token");
   let now = new Date();
@@ -189,22 +198,17 @@ const BookNow = () => {
   const renderMessage = () => {
     switch (status) {
       case "success":
-        return (
-          <p
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
-              color: "white",
-              fontWeight: "bold",
-              textAlign: "center",
-              marginTop: "50px",
-            }}
-          >
-            Bookings created successfully
-          </p>
-        );
+        setTimeout(() => {
+          setStatus(null);
+        }, 4000);
+        return <p style={pstyle}>Bookings created successfully</p>;
       case "error":
-        return <p>Unable to book ! Please try again</p>;
+        setTimeout(() => {
+          setStatus(null);
+        }, 4000);
+        return (
+          <p style={pstyle}>Unable to book ! Please relogin adn try again</p>
+        );
       default:
         return null;
     }
