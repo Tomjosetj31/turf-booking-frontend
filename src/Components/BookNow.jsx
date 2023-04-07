@@ -1,11 +1,17 @@
 import { Tabs, Tab, Link } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useState } from "react";
+import { Button } from '@mui/material';
+import DatePicker from "react-datetime-picker";
 import axios from "axios";
 import backgroundImage from "../images/stadium.jpg";
+
+const pstyle = { 
+  background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+  color: 'white', 
+  fontWeight: 'bold',
+  textAlign:'center',
+  marginTop: "30px"
+}
 
 const styles = {
   backgroundImage: `url(${backgroundImage})`,
@@ -20,134 +26,180 @@ const bstyles = {
   color: "black",
   display: "flex",
   flexWrap: "wrap",
+  
 };
 
 const BookNow = () => {
   let token = localStorage.getItem("token");
-  let now = new Date();
-  const [selectedDate, setSelectedDate] = useState(now);
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [status, setStatus] = useState();
-  const [bookingsByDate, setBookingsByDate] = useState(null);
 
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const [selectedEndTime, setSelectedEndTime] = useState(null);
+  const [status,setStatus] = useState();
   const timeSlots = [
     {
       label: "12 AM - 1 AM",
-      slot: 1,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 00:00:00`)
+      ),
     },
     {
       label: "1 AM - 2 AM",
-      slot: 2,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 01:00:00`)
+      ),
     },
     {
       label: "2 AM - 3 AM",
-      slot: 3,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 02:00:00`)
+      ),
     },
     {
       label: "3 AM - 4 AM",
-      slot: 4,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 03:00:00`)
+      ),
+    },{
       label: "4 AM - 5 AM",
-      slot: 5,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 04:00:00`)
+      ),
     },
     {
       label: "5 AM - 6 AM",
-      slot: 6,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 05:00:00`)
+      ),
+    },{
       label: "6 AM - 7 AM",
-      slot: 7,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 06:00:00`)
+      ),
+    },{
       label: "7 AM - 8 AM",
-      slot: 8,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 07:00:00`)
+      ),
     },
     {
       label: "8 AM - 9 AM",
-      slot: 9,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 08:00:00`)
+      ),
     },
     {
       label: "9 AM - 10 AM",
-      slot: 10,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 09:00:00`)
+      ),
     },
     {
       label: "10 AM - 11 AM",
-      slot: 11,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 10:00:00`)
+      ),
     },
     {
       label: "11 AM - 12 PM",
-      slot: 12,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 11:00:00`)
+      ),
     },
     {
       label: "12 PM - 1 PM",
-      slot: 13,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 12:00:00`)
+      ),
     },
     {
       label: "1 PM - 2 PM",
-      slot: 14,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 13:00:00`)
+      ),
     },
     {
       label: "2 PM - 3 PM",
-      slot: 15,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 14:00:00`)
+      ),
     },
     {
       label: "3 PM - 4 PM",
-      slot: 16,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 15:00:00`)
+      ),
+    },{
       label: "4 PM - 5 PM",
-      slot: 17,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 16:00:00`)
+      ),
     },
     {
       label: "5 PM - 6 PM",
-      slot: 18,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 17:00:00`)
+      ),
+    },{
       label: "6 PM - 7 PM",
-      slot: 19,
-    },
-    {
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 18:00:00`)
+      ),
+    },{
       label: "7 PM - 8 PM",
-      slot: 20,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 19:00:00`)
+      ),
     },
     {
       label: "8 PM - 9 PM",
-      slot: 21,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 20:00:00`)
+      ),
     },
     {
       label: "9 PM - 10 PM",
-      slot: 22,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 21:00:00`)
+      ),
     },
     {
       label: "10 PM - 11 PM",
-      slot: 23,
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 22:00:00`)
+      ),
     },
     {
       label: "11 PM - 12 AM",
-      slot: 24,
-    },
+      value: new Date(
+        Date.parse(`${selectedDate.toLocaleDateString()} 23:00:00`)
+      ),
+    }
+    // Add more time slots as needed
   ];
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setSelectedTimeSlot(null);
   };
 
-  const handleTimeSlotClick = (slot) => {
-    setSelectedSlot(slot);
+  const handleTimeSlotClick = (value) => {
+    setSelectedTimeSlot(value);
+    setSelectedEndTime(new Date(value.getTime() + 60 * 60 * 1000));
   };
 
-  const isTimeSlotSelected = () => {
-    if (!selectedSlot) {
+  const isTimeSlotSelected = (value) => {
+    if (!selectedTimeSlot) {
       return false;
     }
 
-    return true;
+    return selectedTimeSlot.getTime() === value.getTime();
   };
 
   const data = {
     bookingDate: selectedDate,
-    slot: selectedSlot,
+    start_time: selectedTimeSlot,
+    end_time: selectedEndTime,
   };
 
   const options = {
@@ -158,63 +210,37 @@ const BookNow = () => {
   };
 
   const sendRequest = async () => {
-    try {
-      const res = await axios
-        .post(`http://localhost:5000/add`, data, options)
-        .catch((err) => console.log(err));
+    try{
+    const res = await axios
+      .post(`http://localhost:5000/add`, data, options)
+      .catch((err) => console.log(err));
 
-      const response = await res.data;
-      console.log(response);
-      setStatus("success");
-    } catch (error) {
+    const response = await res.data;
+    console.log(response);
+    setStatus('success');
+    }catch(error){
       console.log(error);
-      setStatus("error");
-    }
-  };
-
-  const getAllBookingsByDate = async (date) => {
-    let bookingDate = date.toISOString().split("T")[0];
-    try {
-      const res = await axios
-        .get(`http://localhost:5000/user/bookings/${bookingDate}`, options)
-        .catch((err) => console.log(err));
-
-      const response = await res.data;
-      console.log(response);
-      return response;
-    } catch (error) {
-      console.log(error);
+      setStatus('error');
     }
   };
   const renderMessage = () => {
-    switch (status) {
-      case "success":
-        return (
-          <p
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
-              color: "white",
-              fontWeight: "bold",
-              textAlign: "center",
-              marginTop: "50px",
-            }}
-          >
-            Bookings created successfully
-          </p>
-        );
-      case "error":
-        return <p>Unable to book ! Please try again</p>;
+    switch(status){
+      case 'success':
+        setTimeout(() => {
+          setStatus(null);
+        }, 4000);
+        return <p style={pstyle}>
+          Bookings created successfully
+        </p>
+      case 'error':
+        setTimeout(() => {
+          setStatus(null);
+        }, 4000);
+        return <p style={pstyle}>Unable to book ! Please relogin adn try again</p>
       default:
         return null;
     }
   };
-  useEffect(() => {
-    getAllBookingsByDate(selectedDate).then((data) => {
-      const slots = data?.bookings.map((obj) => obj.slot);
-      setBookingsByDate(slots);
-    });
-  }, [selectedDate, status]);
   return (
     <div style={styles}>
       {token ? (
@@ -235,7 +261,7 @@ const BookNow = () => {
                 marginTop: "110px",
               }}
             >
-              <DatePicker selected={selectedDate} onChange={handleDateChange} />
+              <DatePicker value={selectedDate} onChange={handleDateChange} />
             </div>
             <div
               style={{
@@ -246,32 +272,17 @@ const BookNow = () => {
                 marginLeft: "100px",
               }}
             >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, 1fr)",
-                  gap: "15px",
-                }}
-              >
-                {timeSlots.map((timeSlot) =>
-                  bookingsByDate && !bookingsByDate.includes(timeSlot.slot) ? (
-                    <Button
-                      style={bstyles}
-                      key={timeSlot.slot}
-                      onClick={() => handleTimeSlotClick(timeSlot.slot)}
-                    >
-                      {timeSlot.label}
-                    </Button>
-                  ) : (
-                    <Button
-                      style={bstyles}
-                      key={timeSlot.slot}
-                      // onClick={() => handleTimeSlotClick(timeSlot.slot)}
-                    >
-                      Already Booked
-                    </Button>
-                  )
-                )}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "15px" }}>
+                {timeSlots.map((timeSlot) => (
+                  <Button
+                    style={bstyles}
+                    key={timeSlot.value}
+                    disabled={isTimeSlotSelected(timeSlot.value)}
+                    onClick={() => handleTimeSlotClick(timeSlot.value)}
+                  >
+                    {timeSlot.label}
+                  </Button>
+                ))}
               </div>
             </div>
           </div>
@@ -286,7 +297,7 @@ const BookNow = () => {
               gap: "1rem",
               marginTop: "50px",
             }}
-            disabled={!selectedSlot}
+            disabled={!selectedTimeSlot}
             onClick={() => sendRequest()}
           >
             Create Booking

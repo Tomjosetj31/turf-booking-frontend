@@ -42,7 +42,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import backgroundImage from '../../images/cr7.png';
+import { TextField } from "@mui/material";
 
+const Tstyle = {
+  color: "white",
+  marginRight: "2rem"
+}
 const Styles = {
   backgroundImage: `url(${backgroundImage})`,
   backgroundSize: 'cover',
@@ -74,19 +79,27 @@ const Myprofile = () => {
         <div>
           <h1 style={{ color: "white", textAlign: "center", paddingTop:"20px" }}>MY Profile</h1>
         </div>
-        <div>
-          <h1>Name</h1>
-          <input type="text" value={profile?.name} />
-        </div>
-        <div>
-          <input type="text" value={profile?.age} />
-        </div>
-        <div>
-          <h1>Email</h1>
-          <input type="text" value={profile?.phone} />
-        </div>
-        <div>
-        <input type="text" value={profile?.email} />
+        <div style={{marginTop:"80px",marginLeft:"300px"}}>
+          <div style={{ display: "flex", alignItems: "center", gap: "5rem" }}>        
+            <h1 style={Tstyle}>Name</h1>        
+            <TextField value={profile?.name} 
+            inputProps={{ style: { color: '#FFFF00',fontSize: '16px', fontWeight: 'bold' } } }/>        
+          </div>        
+          <div style={{ display: "flex",marginTop:"20px", alignItems: "center", gap: "7rem" }}>       
+            <h1 style={Tstyle}>Age</h1>       
+            <TextField value={profile?.age} 
+            inputProps={{ style: { color: '#FFFF00',fontSize: '16px', fontWeight: 'bold' } } }/>       
+          </div>        
+          <div style={{ display: "flex",marginTop:"20px", alignItems: "center", gap: "5rem" }}>        
+            <h1 style={Tstyle}>Phone</h1>        
+            <TextField value={profile?.phone}
+            inputProps={{ style: { color: '#FFFF00',fontSize: '16px', fontWeight: 'bold' } } }/>       
+          </div>        
+          <div style={{ display: "flex",marginTop:"20px", alignItems: "center", gap: "5rem" }}>        
+            <h1 style={Tstyle}>Email</h1>        
+            <TextField value={profile?.email} 
+            inputProps={{ style: { color: '#FFFF00',fontSize: '16px', fontWeight: 'bold' } } }/>       
+          </div>
         </div>
       </div>
     </>
