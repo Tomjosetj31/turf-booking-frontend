@@ -72,7 +72,7 @@ const MyBooking = () => {
                       sendDeleteRequest(todaybooks._id);
                     }}
                   >
-                    Delete
+                    Cancel Booking
                   </Button>
                 </div>
               </div>

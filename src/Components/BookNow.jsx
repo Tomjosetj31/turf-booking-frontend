@@ -2,7 +2,6 @@ import { Tabs, Tab, Link } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import backgroundImage from "../images/stadium.jpg";
@@ -15,9 +14,17 @@ const styles = {
 };
 
 const bstyles = {
+  backgroundColor: "white",
+  fontWeight: "bold",
+  color: "#00008B",
+  display: "flex",
+  flexWrap: "wrap",
+};
+
+const bgstyles = {
   backgroundColor: "red",
   fontWeight: "bold",
-  color: "black",
+  color: "white",
   display: "flex",
   flexWrap: "wrap",
 };
@@ -207,7 +214,7 @@ const BookNow = () => {
           setStatus(null);
         }, 4000);
         return (
-          <p style={pstyle}>Unable to book ! Please relogin adn try again</p>
+          <p style={pstyle}>Bookings created! Please relogin again since you are a new user</p>
         );
       default:
         return null;
@@ -268,11 +275,11 @@ const BookNow = () => {
                     </Button>
                   ) : (
                     <Button
-                      style={bstyles}
+                      style={bgstyles}
                       key={timeSlot.slot}
                       // onClick={() => handleTimeSlotClick(timeSlot.slot)}
                     >
-                      Already Booked
+                      Booked
                     </Button>
                   )
                 )}
@@ -281,9 +288,9 @@ const BookNow = () => {
           </div>
           <Button
             style={{
-              backgroundColor: "black",
+              backgroundColor: "#00008B",
               fontWeight: "bold",
-              color: "red",
+              color: "white",
               display: "flex",
               flexWrap: "wrap",
               marginLeft: "400px",
@@ -299,7 +306,7 @@ const BookNow = () => {
         </>
       ) : (
         <div>
-          <h1 style="color: #2825c9; font-size: 24px; font-weight: bold; text-align: center;">
+          <h1 style="color: green">
             Please Login to book
           </h1>
           <Tabs>
