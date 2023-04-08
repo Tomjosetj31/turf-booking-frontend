@@ -213,9 +213,7 @@ const BookNow = () => {
         setTimeout(() => {
           setStatus(null);
         }, 4000);
-        return (
-          <p style={pstyle}>Bookings created! Please relogin again since you are a new user</p>
-        );
+        return <p style={pstyle}>Unable to book ! Please try again</p>;
       default:
         return null;
     }
@@ -306,9 +304,7 @@ const BookNow = () => {
         </>
       ) : (
         <div>
-          <h1 style="color: green">
-            Please Login to book
-          </h1>
+          <h1 style="color: green">Please Login to book</h1>
           <Tabs>
             <Tab LinkComponent={Link} to="book/add" label="Book Now" />
           </Tabs>
