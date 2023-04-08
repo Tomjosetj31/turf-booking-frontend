@@ -6,6 +6,7 @@ import { TextField } from "@mui/material";
 const Tstyle = {
   color: "white",
   marginRight: "2rem",
+  fontSize: "25px",
 };
 const Styles = {
   backgroundImage: `url(${backgroundImage})`,
@@ -37,7 +38,7 @@ const Myprofile = () => {
           <h1
             style={{ color: "white", textAlign: "center", paddingTop: "20px" }}
           >
-            MY Profile
+            My Profile
           </h1>
         </div>
         <div style={{ marginTop: "80px", marginLeft: "300px" }}>

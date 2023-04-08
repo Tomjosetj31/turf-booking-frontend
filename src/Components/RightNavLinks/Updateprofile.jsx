@@ -4,8 +4,16 @@ import { Button } from "@mui/material";
 import backgroundImage from "../../images/aboutus.jpg";
 import { TextField } from "@mui/material";
 
+const pstyle = {
+  background:
+    "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+  color: "white",
+  fontWeight: "bold",
+  textAlign: "center",
+  marginTop: "60px",
+};
 const Tstyle = {
-  color: "#4B0082",
+  color: "white",
   marginRight: "2rem",
 };
 const Styles = {
@@ -17,16 +25,45 @@ const Styles = {
 const Updateprofile = () => {
   let token = localStorage.getItem("token");
   const [profile, setProfile] = useState(); //usestate contains data which is received from request which will be stored in todaybooks with the help of settodaybooks
+  const [status, setStatus] = useState();
 
-  const updateRequest = async () => {
+  const updateRequest = async (name, age, phone) => {
     console.log("sendRequest");
-    const res = await axios
-      .put(`http://localhost:5000/update`, {
-        headers: { authorization: `Bearer ${token}` },
-      })
-      .catch((err) => console.log(err));
-    const data = await res.data;
-    return data;
+    try{
+      const res = await axios
+        .put(`http://localhost:5000/update`,{
+          name: name,
+          age: age,
+          phone: phone,
+        }, {
+          headers: { authorization: `Bearer ${token}` },
+        })
+        .catch((err) => console.log(err));
+      const data = await res.data;
+      console.log(data);
+      setStatus("success");
+      }catch (error) {
+      console.log(error);
+      setStatus("error");
+    }
+  };
+  const renderMessage = () => {
+    switch (status) {
+      case "success":
+        setTimeout(() => {
+          setStatus(null);
+        }, 6000);
+        return <p style={pstyle}>Profile Updated Successfully</p>;
+      case "error":
+        setTimeout(() => {
+          setStatus(null);
+        }, 6000);
+        return (
+          <p style={pstyle}>Unable to update password! Please try again</p>
+        );
+      default:
+        return null;
+    }
   };
   const sendRequest = async () => {
     console.log("sendRequest");
@@ -61,6 +98,7 @@ const Updateprofile = () => {
             <h1 style={Tstyle}>Name</h1>
             <TextField
               value={profile?.name}
+              onChange={(event) => setProfile({...profile, name: event.target.value})}
               inputProps={{
                 style: { color: "red", fontSize: "16px", fontWeight: "bold" },
               }}
@@ -77,6 +115,7 @@ const Updateprofile = () => {
             <h1 style={Tstyle}>Age</h1>
             <TextField
               value={profile?.age}
+              onChange={(event) => setProfile({...profile, age: event.target.value})}
               inputProps={{
                 style: { color: "red", fontSize: "16px", fontWeight: "bold" },
               }}
@@ -93,22 +132,7 @@ const Updateprofile = () => {
             <h1 style={Tstyle}>Phone</h1>
             <TextField
               value={profile?.phone}
-              inputProps={{
-                style: { color: "red", fontSize: "16px", fontWeight: "bold" },
-              }}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              marginTop: "20px",
-              alignItems: "center",
-              gap: "5rem",
-            }}
-          >
-            <h1 style={Tstyle}>Email</h1>
-            <TextField
-              value={profile?.email}
+              onChange={(event) => setProfile({...profile, phone: event.target.value})}
               inputProps={{
                 style: { color: "red", fontSize: "16px", fontWeight: "bold" },
               }}
@@ -120,14 +144,15 @@ const Updateprofile = () => {
             paddingRight: "12px",
             marginLeft: "450px",
             marginTop: "50px",
-            backgroundColor: "red",
+            backgroundColor: "#00008B",
             fontWeight: "bold",
-            color: "black",
+            color: "white",
           }}
-          onClick={() => updateRequest()}
+          onClick={() => updateRequest(profile.name, profile.age, profile.phone)}
         >
           Update
         </Button>
+        {renderMessage()}
       </div>
     </>
   );

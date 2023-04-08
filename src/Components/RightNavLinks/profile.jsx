@@ -21,7 +21,7 @@ const  Profile= ()=>{
         <Tab style={Sidestyles} LinkComponent={Link} to="/updateprofile" label=" Update Profile " />
       </div>
       <div>
-        <Tab style={Sidestyles} LinkComponent={Link} to="/support" label=" Support " />
+        <Tab style={Sidestyles} LinkComponent={Link} to="/support" label=" Password Managment" />
       </div>
       <div>
         <Tab style={Sidestyles} LinkComponent={Link} to="/aboutus" label=" About Us Profile " />
