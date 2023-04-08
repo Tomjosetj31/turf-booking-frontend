@@ -31,7 +31,7 @@ const Todaybooks = ({ bookingDate, slot, name, id }) => {
     "6:00 pm - 7:00 pm",
     "7:00 pm - 8:00 pm",
     "8:00 pm - 9:00 pm",
-    "9:00 pm - 1:000 pm",
+    "9:00 pm - 10:00 pm",
     "10:00 pm - 11:00 pm",
     "11:00 pm - 12:00 am",
   ];
