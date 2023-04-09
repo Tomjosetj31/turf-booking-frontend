@@ -6,7 +6,6 @@ const Styles = {
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: '100vh',
-  
 }
 
 const AUStyle = {

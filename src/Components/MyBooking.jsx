@@ -3,6 +3,14 @@ import axios from "axios";
 import Todaybooks from "./Todaybooks";
 import { Button } from "@mui/material";
 import DatePicker from "react-datepicker";
+import backgroundImage from "../images/stadium.jpg";
+
+const styles = {
+  backgroundImage: `url(${backgroundImage})`,
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  height: "100vh",
+};
 
 const timeSlots = [
   {
@@ -112,10 +120,18 @@ const pstyle = {
   marginTop: "30px",
 };
 
-const bstyles = {
+const bgstyles = {
   backgroundColor: "red",
   fontWeight: "bold",
-  color: "black",
+  color: "white",
+  display: "flex",
+  flexWrap: "wrap",
+};
+
+const bstyles = {
+  backgroundColor: "white",
+  fontWeight: "bold",
+  color: "#00008B",
   display: "flex",
   flexWrap: "wrap",
 };
@@ -280,7 +296,7 @@ const MyBooking = () => {
             : null}
         </div>
       ) : (
-        <div>
+        <div style={styles}>
           <>
             <div
               style={{
@@ -288,111 +304,62 @@ const MyBooking = () => {
                 display: "flex",
                 flexDirection: "row",
                 gap: "1rem",
-              }}
-            >
+              }}>
               <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
-                  marginTop: "110px",
-                }}
-              >
+                style={{display: "flex",flexDirection: "column",gap: "1rem",marginTop: "110px",}}>
                 <DatePicker
                   selected={selectedDate}
                   onChange={(date) => {
                     setSelectedDate(date);
-                  }}
-                />
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{ height: 80 }}></div>
-                  <Button
-                    style={{
-                      paddingRight: "12px",
-                      margin: 20,
-                      backgroundColor: "black",
-                      fontWeight: "bold",
-                      color: "red",
-                    }}
-                    /*onClick={() => {
-                    sendDeleteRequest(todaybooks._id);
-                  }}*/
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    style={{
-                      paddingRight: "12px",
-                      margin: 20,
-                      backgroundColor: "red",
-                      fontWeight: "bold",
-                      color: "black",
-                    }}
-                    onClick={() => {
-                      sendDeleteRequest(todaybooks._id);
-                    }}
-                  >
-                    Cancel Booking
-                  </Button>
-                </div>
+                  }}/>
+              </div>
+              <div style={{display: "flex",flexDirection: "column",gap: "1rem",marginTop: "100px",marginLeft: "100px"}}>
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                    marginTop: "100px",
-                    marginLeft: "100px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(4, 1fr)",
-                      gap: "15px",
-                    }}
-                  >
-                    {timeSlots.map((timeSlot) =>
-                      bookingsByDate &&
-                      !bookingsByDate.includes(timeSlot.slot) ? (
-                        <Button
-                          style={bstyles}
-                          key={timeSlot.slot}
-                          onClick={() => {
-                            setSelectedSlot(timeSlot.slot);
-                          }}
-                        >
-                          {timeSlot.label}
-                        </Button>
-                      ) : (
-                        <Button
-                          style={bstyles}
-                          key={timeSlot.slot}
-                          // onClick={() => handleTimeSlotClick(timeSlot.slot)}
-                        >
-                          Booked
-                        </Button>
-                      )
-                    )}
-                  </div>
+                    display: "grid",
+                    gridTemplateColumns: "repeat(4, 1fr)",
+                    gap: "15px",
+                  }}>
+                  {timeSlots.map((timeSlot) =>
+                    bookingsByDate &&
+                    !bookingsByDate.includes(timeSlot.slot) ? (
+                      <Button
+                        style={bstyles}
+                        key={timeSlot.slot}
+                        onClick={() => {
+                          setSelectedSlot(timeSlot.slot);
+                        }}
+                      >
+                        {timeSlot.label}
+                      </Button>
+                    ) : (
+                      <Button
+                        style={bgstyles}
+                        key={timeSlot.slot}
+                        // onClick={() => handleTimeSlotClick(timeSlot.slot)}
+                      >
+                        Booked
+                      </Button>
+                    )
+                  )}
                 </div>
-              </div>
               <Button
                 style={{
-                  backgroundColor: "black",
+                  backgroundColor: "#00008B",
                   fontWeight: "bold",
-                  color: "red",
+                  color: "white",
                   display: "flex",
                   flexWrap: "wrap",
-                  marginLeft: "400px",
+                  marginLeft: "000px",
                   gap: "1rem",
                   marginTop: "50px",
                 }}
                 disabled={!selectedSlot}
-                onClick={() => updateBooking()}
-              >
+                onClick={() => updateBooking()}>
                 Update Booking
               </Button>
               {renderMessage()}
+              </div>
             </div>
           </>
         </div>

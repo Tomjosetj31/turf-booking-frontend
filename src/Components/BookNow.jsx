@@ -212,8 +212,8 @@ const BookNow = () => {
       case "error":
         setTimeout(() => {
           setStatus(null);
-        }, 4000);
-        return <p style={pstyle}>Unable to book ! Please try again</p>;
+        }, 8000);
+        return <p style={pstyle}>Slot booked! Please login again</p>;
       default:
         return null;
     }

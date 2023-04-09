@@ -26,35 +26,51 @@ const Login = () => {
   };
 
   const sendRequest = async (type = "login") => {
-    const res = await axios
-      .post(`http://localhost:5000/${type}`, {
+    try {
+      const res = await axios.post(`http://localhost:5000/${type}`, {
         name: inputs.name,
         age: inputs.age,
         phone: inputs.phone,
         email: inputs.email,
         password: inputs.password,
-      })
-      .catch((err) => console.log(err));
-
-    const data = await res.data;
-    console.log(data);
-    return data;
+      });
+      const data = await res.data;
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err.response.data);
+      throw err;
+    }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
-    if (isSignUp) {
-      sendRequest("signup")
-        .then(() => dispath(authActions.login()))
-        .then(() => navigate("/signup"))
-        .then((data) => console.log(data));
-    } else {
-      sendRequest()
-        .then((data) => localStorage.setItem("token", data.token))
-        .then(() => dispath(authActions.login()))
-        .then(() => navigate("/book/add"));
-      //.then(data=>console.log(data))
+    try {
+      if (isSignUp) {
+        sendRequest("signup")
+          .then(() => dispath(authActions.login()))
+          .then(() => navigate("/signup"))
+          .then((data) => console.log(data))
+          .catch((err) => {
+            console.log(err);
+            if (err.response.data.message) {
+              alert(err.response.data.message);
+            }
+          });
+      } else {
+        sendRequest()
+          .then((data) => localStorage.setItem("token", data.token))
+          .then(() => dispath(authActions.login()))
+          .then(() => navigate("/book/add"))
+          .catch((err) => {
+            console.log(err);
+            if (err.response.data.message) {
+              alert(err.response.data.message);
+            }
+          });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   return (

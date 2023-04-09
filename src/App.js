@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Components/Home/Home";
-//import Support from "./Components/Support";
+import AdminPage from "./Components/Adminhome";
 import BookNow from "./Components/BookNow";
 import Header from "./Components/Header";
 import Login from "./Components/Login";
@@ -12,7 +12,8 @@ import Aboutus from "./Components/RightNavLinks/Aboutus";
 import Support from "./Components/RightNavLinks/Support";
 import Myprofile from "./Components/RightNavLinks/Myprofile"
 import Updateprofile from "./Components/RightNavLinks/Updateprofile"
-
+import Adminviewbooking from "./Components/AdminViewBooking";
+import Signup from "./Components/Signup";
 function App() {
   const isLoggedIn =useSelector((state)=>state.isLoggedIn);
   console.log(isLoggedIn);
@@ -31,6 +32,9 @@ function App() {
         <Route path="/updateprofile" element={<Updateprofile />} />
         <Route path="/support" element={<Support />} />
         <Route path="/aboutus" element={<Aboutus />} />
+        <Route path="/adminhome" element={<AdminPage />} />
+        <Route path="/adminviewbooking" element={<Adminviewbooking />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </main>
     </React.Fragment>

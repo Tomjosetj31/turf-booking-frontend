@@ -37,10 +37,7 @@ const Header = () => {
         <Typography>
           <SportsSoccerIcon />
         </Typography>
-        <Typography variant="h4"> Chimbees's Turf </Typography>
-        <Typography>
-          <FitnessCenterIcon />
-        </Typography>
+        <Typography variant="h4">. CLub 35 Turf </Typography>
         {authenticated && (
           <Box dispaly="flex" marginLeft={"auto"} marginRight={"auto"}>
             <Tabs
