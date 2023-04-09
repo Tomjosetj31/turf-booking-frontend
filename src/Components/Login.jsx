@@ -15,6 +15,7 @@ const Login = () => {
     phone: "",
     email: "",
     password: "",
+    isAdmin: false,
   });
   const [isSignUp, setisSignUp] = useState(false);
   const handleChange = (e) => {
@@ -33,6 +34,7 @@ const Login = () => {
         phone: inputs.phone,
         email: inputs.email,
         password: inputs.password,
+        isAdmin: inputs.isAdmin,
       });
       const data = await res.data;
       console.log(data);

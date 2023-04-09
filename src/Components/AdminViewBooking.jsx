@@ -29,7 +29,7 @@ const MyBooking = () => {
     return data;
   };
   useEffect(() => {
-    sendRequest().then((data) => settodaybooks(data.bookings.bookings));
+    sendRequest().then((data) => settodaybooks(data.bookings));
   }, [data]);
   return (
     <div style={{ backgroundColor: "#f2f2f2" }}>
@@ -40,9 +40,7 @@ const MyBooking = () => {
                 <Todaybooks
                   key={todaybooks._id}
                   bookingDate={todaybooks.bookingDate}
-                  start_time={todaybooks.start_time}
-                  end_time={todaybooks.end_time}
-                  name={todaybooks.user.name}
+                  slot={todaybooks.slot}
                   id={todaybooks._id}
                 />
                 <div style={{ display: "flex", flexDirection: "column" }}>
